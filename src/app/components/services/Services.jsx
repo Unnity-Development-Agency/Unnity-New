@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { services } from "./services";
+import { services } from "./services-data";
 import ServiceArtwork from "./ServiceArtwork";
 gsap.registerPlugin(ScrollTrigger);
 const tones = ["#ffffff", "#eee7f6", "#d3c1e7", "#80639f", "#2a1650"];

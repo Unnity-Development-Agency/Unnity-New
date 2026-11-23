@@ -3,7 +3,7 @@ import { site } from "./site";
 import HeroServiceScroller from "./components/HeroServiceScroller";
 import { ArrowUpRight } from "lucide-react";
 import GatewayExperience from "./components/services/GatewayExperience";
-// import Services from "./components/services/Services";
+import Services from "./components/services/Services.jsx";
 
 // Placeholder content: replace with your final headline, description and CTA.
 export default function Home() {
