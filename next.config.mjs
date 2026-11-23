@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Hide development-only status badges without suppressing runtime errors.
+  devIndicators: false,
   /* config options here */
   experimental: {
     agentFeedback: true,

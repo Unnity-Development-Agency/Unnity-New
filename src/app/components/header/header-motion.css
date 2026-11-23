@@ -1,0 +1,69 @@
+/* Layout/colour/responsiveness live in Tailwind; only the wind choreography lives here. */
+.wind-surface {
+  transform-origin: 85% 50%;
+  transition:
+    transform 560ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 420ms ease,
+    filter 460ms ease;
+}
+.wind-item {
+  transition:
+    transform 480ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 360ms ease,
+    color 180ms ease,
+    background-color 180ms ease;
+}
+.wind-header[data-hidden="true"] {
+  pointer-events: none;
+}
+.wind-header[data-hidden="true"] .wind-surface {
+  transform: translate3d(30px, -8px, 0) skewX(-3deg) scaleX(1.025);
+  opacity: 0;
+  filter: blur(5px);
+}
+.wind-header[data-hidden="true"] .wind-item {
+  transform: translate3d(18px, -2px, 0);
+  opacity: 0;
+}
+.wind-header[data-hidden="false"] li:nth-child(2) .wind-item {
+  transition-delay: 25ms;
+}
+.wind-header[data-hidden="false"] li:nth-child(3) .wind-item {
+  transition-delay: 45ms;
+}
+.wind-header[data-hidden="false"] li:nth-child(4) .wind-item {
+  transition-delay: 65ms;
+}
+.wind-header[data-hidden="false"] li:nth-child(5) .wind-item {
+  transition-delay: 85ms;
+}
+.wind-header[data-hidden="false"] li:nth-child(6) .wind-item {
+  transition-delay: 105ms;
+}
+.wind-dropdown {
+  animation: dropdown-in 180ms ease-out;
+}
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wind-surface,
+  .wind-item {
+    transition: none !important;
+  }
+  .wind-header[data-hidden="true"] .wind-surface,
+  .wind-header[data-hidden="true"] .wind-item {
+    transform: none;
+    filter: none;
+  }
+  .wind-dropdown {
+    animation: none;
+  }
+}
