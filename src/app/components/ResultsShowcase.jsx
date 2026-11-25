@@ -60,15 +60,7 @@ export default function ResultsShowcase() {
   return (
     <section className="results-showcase" aria-labelledby="results-heading">
       <div className="results-header">
-        <div>
-          {/* <p className="results-eyebrow">
-            <span />A closer look at performance
-          </p> */}
-          <h2 id="results-heading">Behind the growth.</h2>
-        </div>
-        <p className="results-intro">
-          A few snapshots from the dashboards. Open a screen. See the detail.
-        </p>
+        <h2 id="results-heading">A closer look at performance</h2>
       </div>
       <div
         className="results-track"

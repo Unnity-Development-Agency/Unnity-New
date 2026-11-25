@@ -27,7 +27,7 @@ export default function Home() {
           }).replace(/</g, "\\u003c"),
         }}
       />
-      <GatewayExperience services={<Services />}>
+      <GatewayExperience services={<><MetroJourney /><Services /></>}>
         <section className="hero" aria-labelledby="hero-heading">
           <div className="hero-copy">
             <p className="eyebrow">
@@ -62,9 +62,9 @@ export default function Home() {
           <HeroServiceScroller />
         </section>
       </GatewayExperience>
-      <TrustedBrands />
-      <AgencyStats />
-      <MetroJourney />
+      <TrustedBrands>
+        <AgencyStats />
+      </TrustedBrands>
       <ResultsShowcase />
       {/* <section className="project-invitation" aria-labelledby="project-heading">
         <div>

@@ -29,7 +29,7 @@ export const brandImages = [
   { src: "/brands/woolen_house1.png", alt: "Woolen House" },
 ];
 
-export default function TrustedBrands() {
+export default function TrustedBrands({ children }) {
   if (!brandImages.length) return null;
   const scrollingBrands = Array.from(
     { length: Math.max(10, brandImages.length) },
@@ -38,7 +38,9 @@ export default function TrustedBrands() {
 
   return (
     <section className="trusted-brands-section" aria-labelledby="trusted-brands-heading">
+      <p className="trusted-brands-eyebrow">Partnerships built on trust</p>
       <h2 id="trusted-brands-heading" className="trusted-brands-heading">Trusted by brands</h2>
+      {children}
       <div className="trusted-brands-scroller" tabIndex={0} role="region" aria-label="Trusted brands. Hover or focus to pause scrolling.">
         <div className="trusted-brands-track">
           {[0, 1].map((copy) => (

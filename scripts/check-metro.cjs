@@ -11,7 +11,7 @@ fs.mkdirSync(output, { recursive: true });
   try {
     const widths = process.env.METRO_TEST_WIDTHS ? process.env.METRO_TEST_WIDTHS.split(',').map(Number) : [1440, 820, 390, 320];
     for (const width of widths) {
-      const page = await browser.newPage({ viewport: { width, height: 900 } });
+      const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: 'no-preference' });
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
       page.on('console', message => {
@@ -24,7 +24,11 @@ fs.mkdirSync(output, { recursive: true });
       await page.waitForFunction(selector => document.querySelector(selector)?.dataset.motion === 'true', `.metro-artwork-${width <= 700 ? 'mobile' : 'desktop'}`);
       await page.waitForTimeout(800);
       const section = page.locator('.metro-journey');
-      const bounds = await section.evaluate(element => ({ top: element.getBoundingClientRect().top + scrollY, height: element.offsetHeight }));
+      const bounds = await section.evaluate(element => {
+        const plane = element.closest('.services-plane');
+        const offset = plane ? new DOMMatrix(getComputedStyle(plane).transform).m42 : 0;
+        return { top: element.getBoundingClientRect().top + scrollY - offset, height: element.offsetHeight };
+      });
       const positions = [];
       for (const progress of [0, .6, 1]) {
         await page.evaluate(({ bounds, progress }) => {

@@ -5,11 +5,6 @@
   overflow: clip;
 }
 .metro-inner { max-width: 1280px; margin: 0 auto; }
-.metro-heading { text-align: center; }
-.metro-eyebrow { margin: 0 0 16px; color: #8a759e; font-size: 10px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; }
-.metro-heading h2 { margin: 0; font-size: clamp(30px, 3.2vw, 46px); font-weight: 500; line-height: 1.15; letter-spacing: -.045em; }
-.metro-heading h2 span { color: #806394; }
-.metro-intro { margin: 18px auto 0; max-width: 530px; color: #716b7c; font-size: 14px; line-height: 1.8; }
 .metro-figure { margin: 26px 0 0; }
 .metro-artwork { display: block; width: 100%; height: auto; overflow: visible; }
 .metro-artwork-mobile { display: none; }
@@ -20,39 +15,45 @@
 .metro-artwork[data-motion="true"] [data-metro-station][data-reached="true"] { opacity: 1; }
 .metro-artwork [data-station-light] { opacity: .25; }
 .metro-artwork [data-reached="true"] [data-station-light] { opacity: 1; }
-.metro-figure figcaption { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: -5px; padding: 0 16px 24px; color: #8d7d97; font-size: 10px; line-height: 1.6; }
-.metro-figure figcaption > span:first-child { display: flex; align-items: center; gap: 7px; }
-.metro-figure figcaption > span:last-child { color: #9b8ca6; }
-.metro-problems { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 28px 0 0; border-top: 1px solid #e7deed; list-style: none; }
-.metro-problems li { padding: 0 26px; }
-.metro-problems li + li { border-left: 1px solid #e7deed; }
-.metro-problems li > svg { color: #8968a6; margin-bottom: 13px; }
-.metro-problems h3 { margin: 0 0 7px; font-size: 14px; line-height: 1.4; font-weight: 500; letter-spacing: -.02em; }
-.metro-problems p { margin: 0; max-width: 230px; font-size: 12px; line-height: 1.8; color: #7b6c86; }
+.metro-problems { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 22px 0; border-block: 1px solid #e7deed; background: linear-gradient(120deg, #f7f3fb, #fdfcfe 52%, #f4eff9); list-style: none; }
+.metro-problems::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(280px circle at var(--pointer-x, 50%) var(--pointer-y, 50%), #2a165018 0%, #2a165009 45%, transparent 100%); opacity: 0; transition: opacity 400ms; }
+.metro-problems::after { content: ""; position: absolute; z-index: -1; top: 37px; left: 32px; right: 32px; height: 5px; border-block: 1px solid #d9cbe3; }
+.metro-problems li { min-width: 0; padding: 0 28px; }
+.metro-problem-stop { position: relative; display: grid; place-items: center; width: 35px; height: 35px; margin-bottom: 16px; border: 1px solid #cdbbdc; border-radius: 50%; color: #8968a6; background: #faf7fd; box-shadow: 0 0 0 5px #faf7fd; }
+.metro-problem-copy { min-width: 0; }
+.metro-problem-number { display: block; margin-bottom: 8px; color: #887395; font-size: 10px; font-weight: 500; letter-spacing: .12em; }
+.metro-problem-number span { font-size: 8px; text-transform: uppercase; }
+.metro-problems h3 { margin: 0 0 6px; font-size: 15px; line-height: 1.4; font-weight: 500; letter-spacing: -.02em; }
+.metro-problems p { margin: 0; max-width: 220px; font-size: 11px; line-height: 1.65; color: #73647e; }
+@media (hover: hover) and (pointer: fine) {
+  .metro-problems:hover::before { opacity: 1; }
+  .metro-problems h3 { transition: color 250ms; }
+  .metro-problems li:hover h3 { color: #754898; }
+}
 @media (max-width: 1000px) {
   .metro-journey { padding: 64px 24px 24px; }
-  .metro-problems li { padding: 0 16px; }
+  .metro-problems li { padding: 0 18px; }
   .metro-problems h3 { font-size: 13px; }
 }
 @media (max-width: 700px) {
   .metro-journey { padding: 56px 24px 20px; }
-  .metro-eyebrow { font-size: 9px; letter-spacing: .13em; }
-  .metro-intro { font-size: 13px; max-width: 360px; }
-  .metro-desktop-break { display: none; }
   .metro-artwork-desktop { display: none; }
   .metro-artwork-mobile { display: block; }
   .metro-figure { margin: 18px -12px 0; }
   .metro-station-title { font-size: 23px; }
   .metro-station-value { font-size: 32px; }
   .metro-station-detail { font-size: 19px; }
-  .metro-figure figcaption { flex-direction: column; gap: 5px; padding: 4px 12px 22px; text-align: center; font-size: 9px; }
-  .metro-problems { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-top: 0; }
-  .metro-problems li { padding: 22px 12px; }
-  .metro-problems li:nth-child(3) { border-left: 0; }
-  .metro-problems li:nth-child(n+3) { border-top: 1px solid #e7deed; }
-  .metro-problems p { font-size: 11px; }
+  .metro-problems { grid-template-columns: 1fr; padding: 20px 18px; gap: 20px; }
+  .metro-problems::after { top: 36px; bottom: 48px; left: 33px; right: auto; width: 5px; height: auto; border-block: 0; border-inline: 1px solid #d9cbe3; }
+  .metro-problems li { display: grid; grid-template-columns: 35px minmax(0, 1fr); align-items: center; gap: 17px; padding: 0; }
+  .metro-problem-stop { margin: 0; }
+  .metro-problem-number { margin-bottom: 3px; font-size: 9px; }
+  .metro-problems h3 { font-size: 14px; margin-bottom: 3px; }
+  .metro-problems p { max-width: none; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .metro-problems::before { display: none; }
+  .metro-problems h3 { transition: none; }
   .metro-artwork [data-metro-station] { opacity: 1; transition: none; }
   .metro-artwork [data-station-light] { opacity: 1; }
 }

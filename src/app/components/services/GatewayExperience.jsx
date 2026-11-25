@@ -21,6 +21,7 @@ export default function GatewayExperience({ children, services }) {
       const hero = host.querySelector(".hero-plane");
       const next = host.querySelector(".services-plane");
       let observer;
+      let refreshFrame;
       if (desktop) {
         const distance = () => Math.round(Math.min(560, innerHeight * .58));
         const measure = () => {
@@ -59,9 +60,13 @@ export default function GatewayExperience({ children, services }) {
         turn.to(next, { opacity: 1, duration: .08 }, 0);
         hero.inert = turn.scrollTrigger.progress > .05;
         next.inert = turn.scrollTrigger.progress === 0;
+        // Child sections measure before this wrapper establishes its runway.
+        // Refresh once the opening layout is in place so their scroll ranges align.
+        refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh());
       }
       return () => {
         observer?.disconnect();
+        cancelAnimationFrame(refreshFrame);
         host.classList.remove("has-page-turn");
         host.style.removeProperty("--page-height");
         host.style.removeProperty("--turn-distance");
@@ -77,9 +82,10 @@ export default function GatewayExperience({ children, services }) {
     const host = root.current;
     if (!host.classList.contains("has-page-turn")) return;
     event.preventDefault();
-    const runway = host.querySelector(".page-turn-runway");
-    const distance = parseFloat(host.style.getPropertyValue("--turn-distance"));
-    window.scrollTo({ top: runway.getBoundingClientRect().top + window.scrollY + distance + 1, behavior: "instant" });
+    const services = host.querySelector("#services");
+    const plane = host.querySelector(".services-plane");
+    const openingOffset = Number(gsap.getProperty(plane, "y"));
+    window.scrollTo({ top: services.getBoundingClientRect().top + window.scrollY - openingOffset - 100, behavior: "instant" });
     ScrollTrigger.update();
     host.querySelector("#services-heading")?.focus({ preventScroll: true });
   };

@@ -3,7 +3,8 @@
 import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { MousePointer2, TrendingUp, UserRoundX, ChartNoAxesCombined, ArrowDownRight } from "lucide-react";
+import { MousePointer2, TrendingUp, UserRoundX, ChartNoAxesCombined } from "lucide-react";
+import SectionHeading from "../SectionHeading";
 import MetroArtwork from "./MetroArtwork";
 import { routes } from "./metro-geometry";
 import { carriagePoint, carriagePoses } from "./metro-motion";
@@ -17,6 +18,13 @@ const problems = [
   { icon: UserRoundX, title: "Leads Without Sales", text: "Enquiries come in. Customers don’t." },
   { icon: ChartNoAxesCombined, title: "No Clear Insights", text: "Numbers everywhere. Direction nowhere." },
 ];
+
+function followPointer(event) {
+  if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const bounds = event.currentTarget.getBoundingClientRect();
+  event.currentTarget.style.setProperty("--pointer-x", `${event.clientX - bounds.left}px`);
+  event.currentTarget.style.setProperty("--pointer-y", `${event.clientY - bounds.top}px`);
+}
 
 export default function MetroJourney() {
   const root = useRef(null);
@@ -34,6 +42,11 @@ export default function MetroJourney() {
       const progress = { value: 0 };
       const end = length - 100 * route.trainScale;
       const start = route.initial - route.start;
+      const sectionTop = () => {
+        const plane = root.current.closest(".services-plane");
+        const openingOffset = plane ? Number(gsap.getProperty(plane, "y")) : 0;
+        return root.current.getBoundingClientRect().top + window.scrollY - openingOffset;
+      };
       const draw = () => {
         const head = start + (end - start) * progress.value;
         const poses = carriagePoses(path, head, route);
@@ -66,7 +79,10 @@ export default function MetroJourney() {
         artwork.dataset.motion = "true";
         draw();
         gsap.to(progress, { value: 1, ease: "none", onUpdate: draw, scrollTrigger: {
-          trigger: root.current, start: "top 65%", end: "clamp(bottom 75%)", scrub: .7, invalidateOnRefresh: true,
+          trigger: root.current,
+          start: () => sectionTop() - window.innerHeight * .65,
+          end: () => Math.min(sectionTop() + root.current.offsetHeight - window.innerHeight * .75, ScrollTrigger.maxScroll(window)),
+          scrub: .7, invalidateOnRefresh: true,
         } });
       }
       return () => {
@@ -79,19 +95,19 @@ export default function MetroJourney() {
 
   return <section className="metro-journey" ref={root} aria-labelledby="metro-heading">
     <div className="metro-inner">
-      <header className="metro-heading">
-        <p className="metro-eyebrow">The gap between spend &amp; growth</p>
-        <h2 id="metro-heading">Your ads are moving.<br /><span>Is your revenue keeping up?</span></h2>
-        <p className="metro-intro">The budget goes in. The clicks come through. But somewhere<br className="metro-desktop-break" /> between attention and action, the returns fall away.</p>
-      </header>
+      <SectionHeading id="metro-heading" eyebrow="The gap between spend & growth" title="Your ads are moving." accent="Is your revenue keeping up?">
+        The budget goes in. The clicks come through. But somewhere between attention and action, the returns fall away.
+      </SectionHeading>
       <figure className="metro-figure">
         <MetroArtwork variant="desktop" />
         <MetroArtwork variant="mobile" />
-        <figcaption><span><ArrowDownRight size={14} aria-hidden="true" />A busy journey. A different destination.</span><span>Illustrative scenario · Monthly figures</span></figcaption>
       </figure>
-      <ul className="metro-problems">
-        {problems.map(({ icon: Icon, title, text }) => <li key={title}><Icon size={21} strokeWidth={1.4} aria-hidden="true" /><h3>{title}</h3><p>{text}</p></li>)}
-      </ul>
+      <ol className="metro-problems" onPointerMove={followPointer} aria-label="Where the growth journey breaks down">
+        {problems.map(({ icon: Icon, title, text }, index) => <li key={title}>
+          <span className="metro-problem-stop" aria-hidden="true"><Icon size={19} strokeWidth={1.4} /></span>
+          <div className="metro-problem-copy"><span className="metro-problem-number">0{index + 1} <span>/ Journey gap</span></span><h3>{title}</h3><p>{text}</p></div>
+        </li>)}
+      </ol>
     </div>
   </section>;
 }
