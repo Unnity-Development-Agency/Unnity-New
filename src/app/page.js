@@ -3,7 +3,11 @@ import { site } from "./site";
 import HeroServiceScroller from "./components/HeroServiceScroller";
 import { ArrowUpRight } from "lucide-react";
 import GatewayExperience from "./components/services/GatewayExperience";
-import Services from "./components/services/Services.jsx";
+import Services from "./components/services/Services";
+import MetroJourney from "./components/metro/MetroJourney";
+import TrustedBrands from "./components/TrustedBrands";
+import AgencyStats from "./components/AgencyStats";
+import ResultsShowcase from "./components/ResultsShowcase";
 
 // Placeholder content: replace with your final headline, description and CTA.
 export default function Home() {
@@ -58,7 +62,11 @@ export default function Home() {
           <HeroServiceScroller />
         </section>
       </GatewayExperience>
-      <section className="project-invitation" aria-labelledby="project-heading">
+      <TrustedBrands />
+      <AgencyStats />
+      <MetroJourney />
+      <ResultsShowcase />
+      {/* <section className="project-invitation" aria-labelledby="project-heading">
         <div>
           <p>Your ambition. Our next conversation.</p>
           <h2 id="project-heading">
@@ -70,7 +78,7 @@ export default function Home() {
         <a href="https://calendly.com/sayam-unnity/30min">
           Start a conversation <ArrowUpRight size={22} />
         </a>
-      </section>
+      </section> */}
     </main>
   );
 }

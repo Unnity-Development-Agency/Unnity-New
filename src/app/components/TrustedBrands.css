@@ -1,0 +1,88 @@
+.trusted-brands-section {
+  --brand-slot: 10vw;
+  --brand-gap: 16px;
+  padding: 25px 0 28px;
+  background: #faf8fc;
+  border-top: 1px solid #e7deed;
+  color: #634b75;
+}
+
+.trusted-brands-heading {
+  margin: 0 0 18px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.trusted-brands-scroller {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 2%, #000 98%, transparent);
+}
+
+.trusted-brands-scroller:focus-visible {
+  outline: 2px solid #8968a6;
+  outline-offset: -2px;
+}
+
+.trusted-brands-track {
+  display: flex;
+  width: max-content;
+  animation: trusted-brands-scroll 30s linear infinite;
+}
+
+.trusted-brands-group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--brand-gap);
+  padding-right: var(--brand-gap);
+}
+
+.trusted-brands-logo {
+  flex: 0 0 calc(var(--brand-slot) - var(--brand-gap));
+  width: calc(var(--brand-slot) - var(--brand-gap));
+  height: 44px;
+  display: grid;
+  place-items: center;
+}
+
+.trusted-brands-image {
+  width: 100%;
+  max-width: 140px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.trusted-brands-placeholder {
+  color: #9b8ba6;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -.04em;
+}
+
+.trusted-brands-scroller:hover .trusted-brands-track,
+.trusted-brands-scroller:focus-within .trusted-brands-track {
+  animation-play-state: paused;
+}
+
+@keyframes trusted-brands-scroll {
+  to { transform: translateX(-50%); }
+}
+
+@media (max-width: 1000px) {
+  .trusted-brands-section { --brand-slot: 16.666667vw; }
+}
+
+@media (max-width: 650px) {
+  .trusted-brands-section { --brand-slot: 25vw; --brand-gap: 12px; padding: 22px 0; }
+  .trusted-brands-logo, .trusted-brands-image { height: 36px; }
+  .trusted-brands-placeholder { font-size: 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trusted-brands-scroller { overflow-x: auto; mask-image: none; }
+  .trusted-brands-track { animation: none; }
+  .trusted-brands-group[aria-hidden="true"] { display: none; }
+}
