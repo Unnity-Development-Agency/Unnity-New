@@ -15,7 +15,7 @@ function Photo({ src, x, y, width, height }) {
     />
   );
 }
-function BrowserBar({ width = 550, label = "unnity.com" }) {
+export function BrowserBar({ width = 550, label = "unnity.com" }) {
   return (
     <g>
       <rect width={width} height="28" rx="5" fill="#f1f1f3" />

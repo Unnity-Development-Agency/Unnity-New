@@ -3,21 +3,37 @@ const routeCache = new WeakMap();
 function sampledRoute(path) {
   if (routeCache.has(path)) return routeCache.get(path);
   const length = path.getTotalLength();
-  const samples = Array.from({ length: 513 }, (_, index) => path.getPointAtLength(length * index / 512));
-  const route = { length, pointAt(distance) {
-    const position = Math.max(0, Math.min(512, distance / length * 512));
-    const index = Math.min(511, Math.floor(position));
-    const fraction = position - index;
-    return { x: samples[index].x + (samples[index + 1].x - samples[index].x) * fraction, y: samples[index].y + (samples[index + 1].y - samples[index].y) * fraction };
-  } };
+  const samples = Array.from({ length: 513 }, (_, index) =>
+    path.getPointAtLength((length * index) / 512),
+  );
+  const route = {
+    length,
+    pointAt(distance) {
+      const position = Math.max(0, Math.min(512, (distance / length) * 512));
+      const index = Math.min(511, Math.floor(position));
+      const fraction = position - index;
+      return {
+        x:
+          samples[index].x +
+          (samples[index + 1].x - samples[index].x) * fraction,
+        y:
+          samples[index].y +
+          (samples[index + 1].y - samples[index].y) * fraction,
+      };
+    },
+  };
   routeCache.set(path, route);
   return route;
 }
 
 export function carriagePoint(pose, x, y, scale) {
   return {
-    x: pose.x + scale * (x * Math.cos(pose.radians) - y * Math.sin(pose.radians)),
-    y: pose.y + scale * (x * Math.sin(pose.radians) + y * Math.cos(pose.radians)),
+    x:
+      pose.x +
+      scale * (x * Math.cos(pose.radians) - y * Math.sin(pose.radians)),
+    y:
+      pose.y +
+      scale * (x * Math.sin(pose.radians) + y * Math.cos(pose.radians)),
   };
 }
 
@@ -32,13 +48,18 @@ export function carriagePoses(path, head, route) {
     const radians = Math.atan2(front.y - back.y, front.x - back.x);
     // The body rests on the chord between its bogies, rather than floating
     // above or sinking into the curved rail at its centre.
-    return { distance, x: (back.x + front.x) / 2 + scale * Math.cos(radians), y: (back.y + front.y) / 2 + scale * Math.sin(radians), radians };
+    return {
+      distance,
+      x: (back.x + front.x) / 2 + scale * Math.cos(radians),
+      y: (back.y + front.y) / 2 + scale * Math.sin(radians),
+      radians,
+    };
   }
   const poses = [poseAt(head)];
   for (let index = 1; index < 3; index++) {
     const previous = poses[index - 1];
     const target = carriagePoint(previous, -88, -30, scale);
-    const cost = distance => {
+    const cost = (distance) => {
       const point = carriagePoint(poseAt(distance), 88, -30, scale);
       return (point.x - target.x) ** 2 + (point.y - target.y) ** 2;
     };
