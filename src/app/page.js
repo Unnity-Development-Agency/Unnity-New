@@ -8,6 +8,7 @@ import MetroJourney from "./components/metro/MetroJourney";
 import TrustedBrands from "./components/TrustedBrands";
 import AgencyStats from "./components/AgencyStats";
 import ResultsShowcase from "./components/ResultsShowcase";
+import GrowthStories from "./components/GrowthStories";
 
 // Placeholder content: replace with your final headline, description and CTA.
 export default function Home() {
@@ -66,6 +67,7 @@ export default function Home() {
         <AgencyStats />
       </TrustedBrands>
       <ResultsShowcase />
+      <GrowthStories />
       {/* <section className="project-invitation" aria-labelledby="project-heading">
         <div>
           <p>Your ambition. Our next conversation.</p>
