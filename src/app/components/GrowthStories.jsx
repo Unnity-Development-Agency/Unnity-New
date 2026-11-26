@@ -192,12 +192,20 @@ export default function GrowthStories() {
             </dl>
           </article>
         </div>
-        <figure className="growth-visual" key={"photo-" + active}>
+        <figure className="growth-visual" key={"photo-" + active} style={{ "--visual-accent": atmospheres[active] }}>
           {story.photo ? (
             <StoryImage story={story} />
           ) : (
             <div className="growth-photo-fallback"><BrandMark story={story} /></div>
           )}
+          <dl className="growth-preview-metrics">
+            {story.metrics.map((value, i) => (
+              <div key={i}>
+                <dt>{["Sales", "Spend", story.finalLabel || "ROAS"][i]}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
         </figure>
         <nav className="growth-reel" ref={reel} aria-label="Choose a brand to view its results">
           {stories.map((item, index) => (
