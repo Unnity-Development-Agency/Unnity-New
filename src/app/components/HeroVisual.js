@@ -12,10 +12,15 @@ export default function HeroVisual() {
     import("./coinScene").then(({ createCoinScene }) => {
       if (disposed) return;
       const scene = createCoinScene(root.current, setPaused);
+      if (!scene) {
+        root.current?.setAttribute("data-unavailable", "true");
+        return;
+      }
       controller.current = scene;
       cleanup = scene.dispose;
       setPaused(scene.paused);
     }).catch(() => {
+      if (disposed) return;
       root.current?.setAttribute("data-unavailable", "true");
     });
     return () => { disposed = true; cleanup?.(); controller.current = null; };
